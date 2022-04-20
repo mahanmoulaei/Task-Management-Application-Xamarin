@@ -7,17 +7,34 @@ namespace MU6_Management_App.Database
     internal class Login
     {
         static public async Task<bool> Validate(string email, string password)
-        {
-            try
+        {          
+            if (!String.IsNullOrEmpty(email))
             {
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Config.GetAPIKey()));
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(email, password);
-                return true;
+                if (!String.IsNullOrEmpty(password))
+                {
+                    try
+                    {
+                        var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Config.GetAPIKey()));
+                        var auth = await authProvider.SignInWithEmailAndPasswordAsync(email, password);
+                        await App.Current.MainPage.DisplayAlert("Alert", "Login for " + email + " was successful!", "OK");
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        FirebaseAuthException error = ex as FirebaseAuthException;
+                        await App.Current.MainPage.DisplayAlert("Alert", error.Reason.ToString(), "OK");
+                        return false;
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Alert", "Password field cannot be empty!", "Ok");
+                    return false;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                FirebaseAuthException error = ex as FirebaseAuthException;
-                await App.Current.MainPage.DisplayAlert("Alert", error.Reason.ToString(), "OK");
+                await App.Current.MainPage.DisplayAlert("Alert", "Username/Email field cannot be empty!", "Ok");
                 return false;
             }
         }

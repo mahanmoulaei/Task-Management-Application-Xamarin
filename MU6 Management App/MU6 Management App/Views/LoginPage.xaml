@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MU6_Management_App.Views.LoginPage">
+             x:Class="MU6_Management_App.Views.LoginPage"
+             Title="Login Page"
+             >
     <ContentPage.Content>
         <StackLayout>
 
@@ -25,7 +27,7 @@
 
             <StackLayout VerticalOptions="CenterAndExpand" Padding="40,0,40,0">
                 <Button x:Name="btnLogin" Text="Login" BackgroundColor="GreenYellow"  TextColor="OrangeRed" FontSize="20" CornerRadius="10" Margin="5" Clicked="btnLogin_Clicked"/>
-                <Button x:Name="btnSignUp" Text="SignUp" TextColor="Blue" BackgroundColor="Transparent" FontSize="18" Margin="5" Clicked="btnSignUp_Clicked" />
+                <Button x:Name="btnSignup" Text="Sign Up" TextColor="Blue" BackgroundColor="Transparent" FontSize="18" Margin="5" Clicked="btnSignup_Clicked" />
             </StackLayout>
 
         </StackLayout>

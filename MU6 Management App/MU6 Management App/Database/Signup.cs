@@ -10,17 +10,34 @@ namespace MU6_Management_App.Database
     {
         static public async Task<bool> Validate(string email, string password)
         {
-            try
+            if (!String.IsNullOrEmpty(email))
             {
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Config.GetAPIKey()));
-                var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password);
-                await App.Current.MainPage.DisplayAlert("Alert", "User " + email + " Created!", "OK");
-                return true;
+                if (!String.IsNullOrEmpty(password))
+                {
+                    try
+                    {
+
+                        var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Config.GetAPIKey()));
+                        var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password);
+                        await App.Current.MainPage.DisplayAlert("Alert", "User " + email + " Created!", "OK");
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        FirebaseAuthException error = ex as FirebaseAuthException;
+                        await App.Current.MainPage.DisplayAlert("Alert", error.Reason.ToString(), "Ok");
+                        return false;
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Alert", "Password field cannot be empty!", "Ok");
+                    return false;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                FirebaseAuthException error = ex as FirebaseAuthException;
-                await App.Current.MainPage.DisplayAlert("Alert", error.Reason.ToString(), "OK");
+                await App.Current.MainPage.DisplayAlert("Alert", "Username/Email field cannot be empty!", "Ok");
                 return false;
             }
         }

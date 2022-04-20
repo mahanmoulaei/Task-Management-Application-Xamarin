@@ -17,14 +17,23 @@ namespace MU6_Management_App.Views
             InitializeComponent();
         }
 
-        private void btnSignUp_Clicked(object sender, EventArgs e)
+        private void btnSignup_Clicked(object sender, EventArgs e)
         {
-
+            GoToNextPage(new SignupPage());
         }
 
-        private void btnLogin_Clicked(object sender, EventArgs e)
+        private async void btnLogin_Clicked(object sender, EventArgs e)
         {
+            if (await Database.Login.Validate(txtUsername.Text, txtPassword.Text))
+            {
+                GoToNextPage(new UserPage());
+            }
+        }
 
+        private async void GoToNextPage(Page page)
+        {
+            txtUsername.Text = txtPassword.Text = "";
+            await Navigation.PushAsync(page);
         }
     }
 }

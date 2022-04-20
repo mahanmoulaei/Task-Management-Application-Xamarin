@@ -16,5 +16,24 @@ namespace MU6_Management_App.Views
         {
             InitializeComponent();
         }
+
+        private async void btnSignup_Clicked(object sender, EventArgs e)
+        {
+            if (await Database.Signup.Validate(txtUsername.Text, txtPassword.Text))
+            {
+                GoBackToPreviousPage();
+            }
+        }
+
+        private void btnCancel_Clicked(object sender, EventArgs e)
+        {
+            GoBackToPreviousPage();
+        }
+
+        private async void GoBackToPreviousPage()
+        {
+            txtUsername.Text = txtPassword.Text = "";
+            await Navigation.PopAsync();
+        }
     }
 }
