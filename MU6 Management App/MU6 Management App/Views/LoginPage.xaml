@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MU6_Management_App.Views.LoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <StackLayout VerticalOptions="CenterAndExpand"  Spacing="20">
+
+                <Frame Margin="5,20,5,0" Padding="0" CornerRadius="10" BorderColor="Black">
+                    <StackLayout Orientation="Vertical" Padding="10,10,10,20">
+                        <Label Text="Username" FontSize="Medium" FontAttributes="Bold"/>
+                        <Entry x:Name="txtUsername" Text="" Placeholder="Enter your email here..." HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Margin="5,20,5,0" Padding="0" CornerRadius="10" BorderColor="Black">
+                    <StackLayout Orientation="Vertical" Padding="10,10,10,20" >
+                        <Label Text="Password" FontSize="Medium" FontAttributes="Bold"/>
+                        <Entry x:Name="txtPassword" Placeholder="Enter your password here..." HorizontalOptions="FillAndExpand" IsPassword="True"/>
+                    </StackLayout>
+                </Frame>
+
+            </StackLayout>
+
+            <StackLayout VerticalOptions="CenterAndExpand" Padding="40,0,40,0">
+                <Button x:Name="btnLogin" Text="Login" BackgroundColor="GreenYellow"  TextColor="OrangeRed" FontSize="20" CornerRadius="10" Margin="5" Clicked="btnLogin_Clicked"/>
+                <Button x:Name="btnSignUp" Text="SignUp" TextColor="Blue" BackgroundColor="Transparent" FontSize="18" Margin="5" Clicked="btnSignUp_Clicked" />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
