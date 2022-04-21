@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +11,14 @@ using Xamarin.Forms.Xaml;
 namespace MU6_Management_App.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewTaskPage : ContentPage
+    public partial class EditTaskPage : ContentPage
     {
         private List<string> pickerSource = new List<string>() { "Low", "Medium", "High", "Critical" };
-
-        public NewTaskPage()
+        Models.Task globakTask;
+        public EditTaskPage(Models.Task task)
         {
             InitializeComponent();
+            globakTask = task;
             Initialize();
         }
 
@@ -24,11 +26,13 @@ namespace MU6_Management_App.Views
         {
             pickerTaskPriority.ItemsSource = pickerSource;
             pickerTaskPriority.SelectedIndex = 0;
+            pickerTaskPriority.SelectedIndex = pickerSource.FindIndex(item => item == globakTask.Priority);
         }
 
-        private async void btnAddTask_Clicked(object sender, EventArgs e)
+
+        private async void btnEditTask_Clicked(object sender, EventArgs e)
         {
-            if (await Database.Realtime.AddTask(txtTaskDescription.Text, pickerTaskPriority.SelectedItem.ToString()))
+            if (await Database.Realtime.EditTask(Convert.ToInt32(txtTaskID.Text), txtTaskDescription.Text, pickerTaskPriority.SelectedItem.ToString()))
             {
                 GoBackToPreviousPage();
             }
@@ -41,8 +45,7 @@ namespace MU6_Management_App.Views
 
         private async void GoBackToPreviousPage()
         {
-            txtTaskDescription.Text = "";
-            pickerTaskPriority.SelectedIndex = 0;
+            txtTaskID.Text = txtTaskKey.Text = txtTaskDescription.Text = "";
             await Navigation.PopAsync();
         }
     }

@@ -17,6 +17,8 @@
                                 <StackLayout Orientation="Horizontal">
                                     <Label Text="Task" FontSize="17" FontAttributes="Bold"/>
                                     <Label Text="{Binding ID}" FontSize="17" FontAttributes="Bold"/>
+                                    <Label Text="- Key:" FontSize="17" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Key}" FontSize="17" FontAttributes="Bold"/>
                                 </StackLayout>
                                 
                                 <Label Text="{Binding Description}" FontSize="17" Margin="0, 1, 0, 0"/>

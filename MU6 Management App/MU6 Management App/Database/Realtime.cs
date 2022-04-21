@@ -17,7 +17,7 @@ namespace MU6_Management_App.Database
             {
                 if (item.Object != null) //Validation
                 {
-                    Config.allTasks.Add(new Models.Task() { ID = item.Object.ID, Description = item.Object.Description, Priority = item.Object.Priority });
+                    Config.allTasks.Add(new Models.Task() { ID = item.Object.ID, Key = item.Key, Description = item.Object.Description, Priority = item.Object.Priority });
                     serverID++;
                 }
             });
@@ -76,6 +76,47 @@ namespace MU6_Management_App.Database
             else
             {
                 await App.Current.MainPage.DisplayAlert("Alert", "Error happenned at deleting the task! No such task exists! Try again or contact the adminstrator for help...", "Ok");
+                return false;
+            }
+        }
+
+        static public async Task<bool> EditTask(int taskID, string taskDescription, string taskPriority)
+        {
+            var taskToUpdate = (await Config.GetFirebaseClient().Child(Config.GetTasksTableName()).OnceAsync<Models.Task>()).Where(item => item.Object.ID == taskID).FirstOrDefault();
+            if (taskToUpdate != null)
+            {
+                if (!String.IsNullOrEmpty(taskDescription))
+                {
+                    if (!String.IsNullOrEmpty(taskPriority))
+                    {
+                        try
+                        {
+                            await Config.GetFirebaseClient().Child(Config.GetTasksTableName()).Child(taskToUpdate.Key).PutAsync(new Models.Task() { ID = taskID, Description = taskDescription, Priority = taskPriority });
+                            GetAllTasks();
+                            await App.Current.MainPage.DisplayAlert("Alert", "Task edited successfully!", "Ok");
+                            return true;
+                        }
+                        catch
+                        {
+                            await App.Current.MainPage.DisplayAlert("Alert", "Error happenned at editing the task! Try again or contact the adminstrator for help...", "Ok");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Alert", "Task Priority field cannot be empty!", "Ok");
+                        return false;
+                    }
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Alert", "Task Description field cannot be empty!", "Ok");
+                    return false;
+                }
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Alert", "Error happenned at editing the task! No such task exists! Try again or contact the adminstrator for help...", "Ok");
                 return false;
             }
         }

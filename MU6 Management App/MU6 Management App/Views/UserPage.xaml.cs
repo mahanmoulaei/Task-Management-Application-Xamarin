@@ -12,9 +12,11 @@ namespace MU6_Management_App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserPage : ContentPage
     {
+        int globalSelectedItemIndex = -1;
         public UserPage()
         {
             InitializeComponent();
+            
         }
 
         protected override void OnAppearing()
@@ -24,6 +26,7 @@ namespace MU6_Management_App.Views
 
         private void Initialize()
         {
+            listViewTasks.ItemsSource = null;
             listViewTasks.ItemsSource = Database.Realtime.GetAllTasks();
             listViewTasks.SelectedItem = null;
             SetButtonsEnablement(false);
@@ -38,11 +41,13 @@ namespace MU6_Management_App.Views
         {
             if (e.SelectedItemIndex >= 0)
             {
+                globalSelectedItemIndex = e.SelectedItemIndex;
                 SetButtonsEnablement(true);
             }
             else
             {
                 SetButtonsEnablement(false);
+                //globalSelectedItemIndex = -1;
             }
         }
 
@@ -51,8 +56,13 @@ namespace MU6_Management_App.Views
             await Navigation.PushAsync(new NewTaskPage());
         }
 
-        private void btnEditTask_Clicked(object sender, EventArgs e)
+        private async void btnEditTask_Clicked(object sender, EventArgs e)
         {
+            Models.Task task = (Models.Task)listViewTasks.SelectedItem;
+            var taskDetail = new EditTaskPage(task);
+            taskDetail.BindingContext = task;
+            SetButtonsEnablement(false);
+            await Navigation.PushAsync(taskDetail);
 
         }
 
