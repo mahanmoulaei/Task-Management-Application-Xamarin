@@ -7,9 +7,40 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            
+            <ListView x:Name="listViewTasks" RowHeight="75" ItemSelected="listViewTasks_ItemSelected" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="0" Padding="5">
+                                
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Task" FontSize="17" FontAttributes="Bold"/>
+                                    <Label Text="{Binding ID}" FontSize="17" FontAttributes="Bold"/>
+                                </StackLayout>
+                                
+                                <Label Text="{Binding Description}" FontSize="17" Margin="0, 1, 0, 0"/>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Priority:" FontSize="17" FontAttributes="Italic" HorizontalOptions="EndAndExpand"/>
+                                    <Label Text="{Binding Priority}" FontSize="17" HorizontalOptions="End"/>
+                                </StackLayout>
+
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <BoxView BackgroundColor="Black"/>
+            
+            <StackLayout Padding="5">
+                <Button x:Name="btnAddTask" Text="Add" BackgroundColor="DeepSkyBlue" CornerRadius="10" Clicked="btnAddTask_Clicked"/>
+                <Button x:Name="btnEditTask" Text="Edit" BackgroundColor="DeepSkyBlue" CornerRadius="10" Clicked="btnEditTask_Clicked"/>
+                <Button x:Name="btnDeleteTask" Text="Delete" BackgroundColor="DeepSkyBlue" CornerRadius="10" Clicked="btnDeleteTask_Clicked"/>
+                <Button x:Name="btnLogout" Text="Logout" BackgroundColor="DeepSkyBlue" CornerRadius="10" Clicked="btnLogout_Clicked"/>
+            </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
